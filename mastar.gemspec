@@ -4,9 +4,9 @@ require File.expand_path('../lib/mastar/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["pinzolo"]
   gem.email         = ["pinzolo@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{MASTer table on Active Record}
+  gem.summary       = %q{add some features to master table class on ActiveRecord}
+  gem.homepage      = "https://github.com/pinzolo/mastar"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -14,4 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "mastar"
   gem.require_paths = ["lib"]
   gem.version       = Mastar::VERSION
+
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "sqlite3"
+  gem.add_development_dependency "activerecord"
 end
