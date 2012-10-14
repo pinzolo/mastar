@@ -1,0 +1,35 @@
+sunday:
+  id: 1
+  name: sunday
+  short_name: Sun.
+  holiday: true
+monday:
+  id: 2
+  name: monday
+  short_name: Mon.
+  holiday: false
+tuesday:
+  id: 3
+  name: tuesday
+  short_name: Tue.
+  holiday: false
+wednesday:
+  id: 4
+  name: wednesday
+  short_name: Wed.
+  holiday: false
+thursday:
+  id: 5
+  name: thursday
+  short_name: Thu.
+  holiday: false
+friday:
+  id: 6
+  name: friday
+  short_name: Fri.
+  holiday: false
+saturday:
+  id: 7
+  name: saturday
+  short_name: Sat.
+  holiday: true
