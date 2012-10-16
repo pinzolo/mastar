@@ -29,6 +29,7 @@ describe Mastar::Configuration do
       end
       describe '#name' do
         it 'is :title' do
+          puts @config.name
           @config.name.should be :title
         end
       end

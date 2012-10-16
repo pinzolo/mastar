@@ -1,20 +1,20 @@
 # coding: utf-8
 class Color < ActiveRecord::Base
   include Mastar
-  mastar_value :rgb
+  mastar.value :rgb
 
 end
 
 class Dow < ActiveRecord::Base
   include Mastar
   scope :holiday, -> { where(:holiday => true) }
-  mastar_key :name
+  mastar.key :name
 
 end
 
 class Month < ActiveRecord::Base
   include Mastar
-  mastar_name :short_name
+  mastar.name :short_name
 
 end
 

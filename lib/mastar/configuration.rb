@@ -6,8 +6,6 @@ module Mastar
   #   value : column name of pair' value
   #   key   : column name of unique key
   class Configuration
-    attr_writer :name, :value
-    attr_accessor :key
 
     # create new Configuration with Hash parameters
     # acceptable hash value type is String or Symbol
@@ -20,20 +18,27 @@ module Mastar
       opts = options.is_a?(Hash) ? options : {}
       [:name, :value, :key].each do |k|
         v = opts[k] || opts[k.to_s]
-        send("#{k}=", v.to_sym) if v
+        send(k, v.to_sym) if v
       end
     end
 
     # get column name of pair's name
     # get :name(Symbol) when @name is null
-    def name
+    def name(name = nil)
+      @name = name if name
       @name || :name
     end
 
     # get column name of pair's value
     # get :id(Symbol) when @value is null
-    def value
+    def value(value = nil)
+      @value = value if value
       @value || :id
+    end
+
+    def key(key = nil)
+      @key = key if key
+      @key
     end
   end
 end

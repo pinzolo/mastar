@@ -14,42 +14,27 @@ module Mastar
     # options are first preference
     def pairs(options = {})
       opts = safe_options(options)
-      name = extract_option_value(opts, :name, mastar_config.name)
-      value = extract_option_value(opts, :value, mastar_config.value)
+      name = extract_option_value(opts, :name, mastar.name)
+      value = extract_option_value(opts, :value, mastar.value)
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
     end
 
     # set configuration name, value, key at a time
+    # and return config instance.
     def mastar(options = {})
       opts = safe_options(options)
-      mastar_name(extract_option_value(opts, :name))
-      mastar_value(extract_option_value(opts, :value))
-      mastar_key(extract_option_value(opts, :key))
-    end
-
-    # set name configuration
-    def mastar_name(attr)
-      mastar_config.name = attr.to_sym if attr
-    end
-
-    # set value configuration
-    def mastar_value(attr)
-      mastar_config.value = attr.to_sym if attr
-    end
-
-    # set value configuration
-    def mastar_key(attr)
-      mastar_config.key = attr.to_sym if attr
-    end
-
-    # get configuration instance
-    def mastar_config
       @mastar_config ||= Mastar::Configuration.new
+      unless opts.empty?
+        @mastar_config.name(extract_option_value(opts, :name))
+        @mastar_config.value(extract_option_value(opts, :value))
+        @mastar_config.key(extract_option_value(opts, :key))
+      end
+      @mastar_config
     end
 
     # if key configuration exists, define method of name and call
     def method_missing(name, *args)
-      if mastar_config.key
+      if @mastar_config.key
         define_direct_method(name)
         __send__(name, *args)
       else
@@ -83,7 +68,7 @@ module Mastar
       klass = class << self; self end
       klass.class_eval do
         define_method(name) do |*args|
-          @mastar_records[name] ||= where(mastar_config.key => name.to_s).first
+          @mastar_records[name] ||= where(mastar.key => name.to_s).first
           record = @mastar_records[name]
           if args.nil? || args.empty? || record.nil?
             record
