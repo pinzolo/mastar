@@ -87,8 +87,28 @@ describe Mastar do
       end
     end
 
-  end
-  describe Mastar::InstanceMethods do
-
+    describe 'define direct class method' do
+      context 'no argument' do
+        it 'get record object' do
+          Dow.respond_to?(:sunday).should be_false
+          Dow.sunday.is_a?(Dow).should be_true
+          Dow.respond_to?(:sunday).should be_true
+          Dow.sunday.name.should eq 'sunday'
+        end
+      end
+      context 'with 1 argument' do
+        it 'get attribute value at direct' do
+          Dow.monday(:short_name).should eq 'Mon.'
+        end
+      end
+      context 'with multiple arguments' do
+        it 'get Array of attribute values at a time' do
+          Dow.tuesday(:short_name, :holiday).is_a?(Array).should be_true
+          short_name, name = Dow.wednesday(:short_name, :name)
+          short_name.should eq 'Wed.'
+          name.should eq 'wednesday'
+        end
+      end
+    end
   end
 end
