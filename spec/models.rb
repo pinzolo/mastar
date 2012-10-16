@@ -8,6 +8,7 @@ end
 class Dow < ActiveRecord::Base
   include Mastar
   scope :holiday, -> { where(:holiday => true) }
+  mastar_key :name
 
 end
 
