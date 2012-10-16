@@ -14,8 +14,8 @@ module Mastar
     # options are first preference
     def pairs(options = {})
       opts = safe_options(options)
-      name = extract_option_value(opts, :name, mastar.name)
-      value = extract_option_value(opts, :value, mastar.value)
+      name = extract_option_value(opts, :name, @mastar_config.name)
+      value = extract_option_value(opts, :value, @mastar_config.value)
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
     end
 
