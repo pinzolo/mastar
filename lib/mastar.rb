@@ -14,8 +14,8 @@ module Mastar
     # options are first preference
     def pairs(options = {})
       opts = safe_options(options)
-      name = extract_option_value(opts, :name, @mastar_config.name)
-      value = extract_option_value(opts, :value, @mastar_config.value)
+      name = extract_option_value(opts, :name, mastar_config.name)
+      value = extract_option_value(opts, :value, mastar_config.value)
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
     end
 
@@ -23,18 +23,17 @@ module Mastar
     # and return config instance.
     def mastar(options = {})
       opts = safe_options(options)
-      @mastar_config ||= Mastar::Configuration.new
       unless opts.empty?
-        @mastar_config.name(extract_option_value(opts, :name))
-        @mastar_config.value(extract_option_value(opts, :value))
-        @mastar_config.key(extract_option_value(opts, :key))
+        mastar_config.name(extract_option_value(opts, :name))
+        mastar_config.value(extract_option_value(opts, :value))
+        mastar_config.key(extract_option_value(opts, :key))
       end
-      @mastar_config
+      mastar_config
     end
 
     # if key configuration exists, define method of name and call
     def method_missing(name, *args)
-      if @mastar_config.key
+      if mastar_config.key
         define_direct_method(name)
         __send__(name, *args)
       else
@@ -43,6 +42,11 @@ module Mastar
     end
 
     private
+    # get Mastar::Configuration instance
+    def mastar_config
+      @mastar_config ||= Mastar::Configuration.new
+    end
+
     # if options is Hash, return options
     # else return initialized Hash
     def safe_options(options)
