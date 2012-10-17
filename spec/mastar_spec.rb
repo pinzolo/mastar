@@ -110,5 +110,22 @@ describe Mastar do
         end
       end
     end
+    describe 'not exist in key column' do
+      context 'no argument' do
+        it 'get nil' do
+          Dow.foo.should be_nil
+        end
+      end
+      context 'with 1 argument' do
+        it 'get nil' do
+          Dow.bar(:name).should be_nil
+        end
+      end
+      context 'with multiple arguments' do
+        it 'get nil' do
+          Dow.baz(:name, :value).should be_nil
+        end
+      end
+    end
   end
 end
