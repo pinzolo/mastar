@@ -72,7 +72,7 @@ module Mastar
       klass = class << self; self end
       klass.class_eval do
         define_method(name) do |*args|
-          @mastar_records[name] ||= where(mastar.key => name.to_s).first
+          @mastar_records[name] ||= where(mastar_config.key => name.to_s).first
           record = @mastar_records[name]
           if args.nil? || args.empty? || record.nil?
             record
