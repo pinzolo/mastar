@@ -1,20 +1,24 @@
 # coding: utf-8
-class Color < ActiveRecord::Base
+class Dow1 < ActiveRecord::Base
   include Mastar
-  mastar.value :rgb
-
-end
-
-class Dow < ActiveRecord::Base
-  include Mastar
-  scope :holiday, -> { where(:holiday => true) }
+  scope :holiday, lambda { where(:holiday => true) }
   mastar.key :name
 
 end
 
-class Month < ActiveRecord::Base
+class Dow2 < ActiveRecord::Base
+  include Mastar
+  mastar.value :short_name
+
+end
+
+class Dow3 < ActiveRecord::Base
   include Mastar
   mastar.name :short_name
 
 end
 
+class Dow4 < ActiveRecord::Base
+  include Mastar
+  mastar :name => :short_name, :value => :name, :key => :name
+end

@@ -19,6 +19,7 @@ module Mastar
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
     end
 
+    private
     # set configuration name, value, key at a time
     # and return config instance.
     def mastar(options = {})
@@ -31,20 +32,14 @@ module Mastar
       mastar_config
     end
 
-    # if key configuration exists, define method of name and call
-    def method_missing(name, *args)
-      if mastar_config.key
-        define_direct_method(name)
-        __send__(name, *args)
-      else
-        super
-      end
-    end
-
-    private
     # get Mastar::Configuration instance
     def mastar_config
       @mastar_config ||= Mastar::Configuration.new
+    end
+
+    # get Hash(name => id, value => ActiveRecord instance)
+    def mastar_records
+      @mastar_records ||= {}
     end
 
     # if options is Hash, return options
@@ -57,10 +52,18 @@ module Mastar
     # If the value obtained is nil, return default_value if it is specified.
     def extract_option_value(options, key, default_value = nil)
       val = options[key] || options[key.to_s]
-      if default_value
-        val = val || default_value
-      end
+      val = val || default_value if default_value
       val.to_sym
+    end
+
+    # if key configuration exists, define method of name and call
+    def method_missing(name, *args)
+      if mastar_config.key
+        define_direct_method(name)
+        respond_to?(name) ? __send__(name, *args) : nil
+      else
+        super
+      end
     end
 
     # define method having following features.
@@ -68,12 +71,16 @@ module Mastar
     #  * when argument is attribute names, return array of attribute values at direct.
     #  * when no argument, return record instance.
     def define_direct_method(name)
-      @mastar_records ||= {}
+      rec = where(mastar_config.key => name.to_s).first
+      return unless rec
+
       klass = class << self; self end
       klass.class_eval do
+        eval("define_method(:#{name}_id) { #{rec.id} }")
         define_method(name) do |*args|
-          @mastar_records[name] ||= where(mastar_config.key => name.to_s).first
-          record = @mastar_records[name]
+          record_id = __send__("#{name}_id")
+          mastar_records[record_id] ||= rec
+          record = mastar_records[record_id]
           if args.nil? || args.empty? || record.nil?
             record
           elsif args.length == 1

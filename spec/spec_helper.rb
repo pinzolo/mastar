@@ -15,9 +15,9 @@ ActiveRecord::Base.silence do
 end
 
 require 'yaml'
-[[Color, 'colors'], [Dow, 'dows'], [Month, 'months']].each do |klass, file_name|
-  yml = YAML.load_file("#{base_dir}/fixtures/#{file_name}.yml")
+(1..4).to_a.each do |i|
+  yml = YAML.load_file("#{base_dir}/fixtures/dows.yml")
   yml.keys.each do |k|
-    klass.create(yml[k])
+    eval("Dow#{i}.create(yml[k])")
   end
 end
