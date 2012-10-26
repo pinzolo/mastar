@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Mastar::VERSION
 
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rdoc'
+  #gem.add_development_dependency 'rdoc'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'sqlite3'
   gem.add_development_dependency 'activerecord'
