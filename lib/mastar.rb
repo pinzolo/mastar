@@ -61,9 +61,9 @@ module Mastar
       mastar_records[rec.id] ||= rec
       klass = class << self; self end
       klass.class_eval do
-        eval("define_method(:#{name}_id) { #{rec.id} }")
+        eval("instance_variable_set('@#{name}_id', #{rec.id})")
         define_method(name) do |*args|
-          record_id = __send__("#{name}_id")
+          record_id = klass.instance_variable_get("@#{name}_id")
           record = mastar_records[record_id]
           if args.nil? || args.empty? || record.nil?
             record
