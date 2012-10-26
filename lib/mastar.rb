@@ -9,9 +9,6 @@ module Mastar
   end
 
   module ClassMethods
-    # get NameValuePair array
-    # options accepts name and value keys
-    # options are first preference
     def pairs(options = {})
       opts = safe_options(options)
       name = extract_option_value(opts, :name, mastar_config.name)
@@ -20,8 +17,6 @@ module Mastar
     end
 
     private
-    # set configuration name, value, key at a time
-    # and return config instance.
     def mastar(options = {})
       opts = safe_options(options)
       unless opts.empty?
@@ -32,31 +27,24 @@ module Mastar
       mastar_config
     end
 
-    # get Mastar::Configuration instance
     def mastar_config
       @mastar_config ||= Mastar::Configuration.new
     end
 
-    # get Hash(name => id, value => ActiveRecord instance)
     def mastar_records
       @mastar_records ||= {}
     end
 
-    # if options is Hash, return options
-    # else return initialized Hash
     def safe_options(options)
       options.is_a?(Hash) ? options : {}
     end
 
-    # get value as Symbol from options, the value associated with the key.
-    # If the value obtained is nil, return default_value if it is specified.
     def extract_option_value(options, key, default_value = nil)
       val = options[key] || options[key.to_s]
       val = val || default_value if default_value
       val.to_sym
     end
 
-    # if key configuration exists, define method of name and call
     def method_missing(name, *args)
       if mastar_config.key
         define_direct_method(name)
@@ -66,10 +54,6 @@ module Mastar
       end
     end
 
-    # define method having following features.
-    #  * when argument is single attribute name, return attribute value at direct.
-    #  * when argument is attribute names, return array of attribute values at direct.
-    #  * when no argument, return record instance.
     def define_direct_method(name)
       rec = where(mastar_config.key => name.to_s).first
       return unless rec
