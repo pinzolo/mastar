@@ -58,12 +58,12 @@ module Mastar
       rec = where(mastar_config.key => name.to_s).first
       return unless rec
 
+      mastar_records[rec.id] ||= rec
       klass = class << self; self end
       klass.class_eval do
         eval("define_method(:#{name}_id) { #{rec.id} }")
         define_method(name) do |*args|
           record_id = __send__("#{name}_id")
-          mastar_records[record_id] ||= rec
           record = mastar_records[record_id]
           if args.nil? || args.empty? || record.nil?
             record
