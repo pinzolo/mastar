@@ -148,4 +148,15 @@ describe Mastar do
       end
     end
   end
+  describe Mastar::InstanceMethods do
+    context 'record update' do
+      it 'direct method record is updated automatically' do
+        Dow1.friday.holiday?.should eq false
+        fri = Dow1.find(Dow1.friday.id)
+        fri.holiday = true
+        fri.save
+        Dow1.friday.holiday?.should eq true
+      end
+    end
+  end
 end

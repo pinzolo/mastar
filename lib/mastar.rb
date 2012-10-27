@@ -6,6 +6,8 @@ require 'mastar/name_value_pair'
 module Mastar
   def self.included(base)
     base.extend(ClassMethods)
+    base.__send__(:include, InstanceMethods)
+    base.__send__(:before_save, :remove_record_cache)
   end
 
   module ClassMethods
@@ -64,6 +66,7 @@ module Mastar
         eval("instance_variable_set('@#{name}_id', #{rec.id})")
         define_method(name) do |*args|
           record_id = klass.instance_variable_get("@#{name}_id")
+          mastar_records[record_id] ||= find(record_id)
           record = mastar_records[record_id]
           if args.nil? || args.empty? || record.nil?
             record
@@ -73,6 +76,16 @@ module Mastar
             args.map { |arg| record.__send__(arg) }
           end
         end
+      end
+    end
+  end
+
+  module InstanceMethods
+    private
+    def remove_record_cache
+      if self.id
+        records = self.class.__send__('mastar_records')
+        records[self.id] = nil
       end
     end
   end
