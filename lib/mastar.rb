@@ -60,7 +60,7 @@ module Mastar
       rec = where(mastar_config.key => name.to_s).first
       return unless rec
 
-      mastar_records[rec.id] ||= rec
+      mastar_records[rec.id] = rec
       klass = class << self; self end
       klass.class_eval do
         eval("instance_variable_set('@#{name}_id', #{rec.id})")
