@@ -5,6 +5,9 @@ require 'mastar/name_value_pair'
 
 module Mastar
   def self.included(base)
+    class << base
+      alias_method :find!, :find
+    end
     base.extend(ClassMethods)
     base.__send__(:include, InstanceMethods)
     base.__send__(:before_save, :remove_record_cache)
@@ -16,6 +19,11 @@ module Mastar
       name = extract_option_value(opts, :name, mastar_config.name)
       value = extract_option_value(opts, :value, mastar_config.value)
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
+    end
+
+    def find(id)
+      mastar_records[id] ||= find!(id)
+      mastar_records[id]
     end
 
     private

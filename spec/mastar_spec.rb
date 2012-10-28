@@ -147,6 +147,39 @@ describe Mastar do
         end
       end
     end
+    describe '.find' do
+      context 'called by cached id' do
+        it 'get cached record' do
+          rec = Dow4.wednesday
+          rec.respond_to?(:iii).should be_false
+          class << rec
+            def iii
+              'iii'
+            end
+          end
+          Dow4.find(4).respond_to?(:iii).should be_true
+        end
+      end
+      context 'called by uncached id' do
+        it 'get new record and cache' do
+          recs = Dow4.__send__(:mastar_records)
+          recs[5].should be_nil
+          Dow4.find(5)
+          recs = Dow4.__send__(:mastar_records)
+          recs[5].should_not be_nil
+        end
+      end
+    end
+    describe '.find!' do
+      it 'defined' do
+        Dow2.respond_to?(:find!).should be_true
+      end
+      context 'called' do
+        it 'get record' do
+          Dow2.find(4).id.should eq 4
+        end
+      end
+    end
   end
   describe Mastar::InstanceMethods do
     context 'record update' do
