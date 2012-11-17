@@ -1,3 +1,4 @@
+# coding: utf-8
 module Mastar
-  VERSION = "0.0.1"
+  VERSION = "0.9.0"
 end
