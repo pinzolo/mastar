@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["pinzolo"]
   gem.email         = ["pinzolo@gmail.com"]
   gem.description   = %q{MASTer table on Active Record}
-  gem.summary       = %q{add some features to master table class on ActiveRecord}
+  gem.summary       = %q{Add some features to master table class on ActiveRecord}
   gem.homepage      = "https://github.com/pinzolo/mastar"
 
   gem.files         = `git ls-files`.split($\)

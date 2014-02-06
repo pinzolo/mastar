@@ -3,7 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/pinzolo/mastar.png)](http://travis-ci.org/pinzolo/mastar)
 [![Coverage Status](https://coveralls.io/repos/pinzolo/mastar/badge.png)](https://coveralls.io/r/pinzolo/mastar)
 
-TODO: Write a gem description
+Add some features to master table class on ActiveRecord.
 
 ## Installation
 
