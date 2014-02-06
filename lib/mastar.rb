@@ -86,7 +86,33 @@ module Mastar
     end
   end
 
+  def respond_to_missing?(symbol, include_private)
+    can_define_judge_method?(symbol)
+  end
+
+  def method_missing(symbol, *args)
+    if can_define_judge_method?(symbol)
+      self.class.class_eval do
+        define_method(symbol) do
+          mastar_config = self.class.__send__("mastar_config")
+          __send__(mastar_config.key) == symbol.to_s.chomp("?")
+        end
+      end
+      __send__(symbol)
+    else
+      super
+    end
+  end
+
   private
+  def can_define_judge_method?(symbol)
+    mastar_config = self.class.__send__("mastar_config")
+    return false unless mastar_config.key && symbol.to_s.end_with?("?")
+
+    name = symbol.to_s.chomp("?")
+    self.class.exists?(mastar_config.key => name)
+  end
+
   def remove_record_cache
     if self.id
       records = self.class.__send__('mastar_records')
