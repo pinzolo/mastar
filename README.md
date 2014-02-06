@@ -1,5 +1,8 @@
 # Mastar
 
+[![Build Status](https://secure.travis-ci.org/pinzolo/mastar.png)](http://travis-ci.org/pinzolo/mastar)
+[![Coverage Status](https://coveralls.io/repos/pinzolo/mastar/badge.png)](https://coveralls.io/r/pinzolo/mastar)
+
 TODO: Write a gem description
 
 ## Installation
