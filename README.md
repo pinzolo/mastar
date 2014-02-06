@@ -29,7 +29,6 @@ Or install it yourself as:
 ### Ruby code
 
 ```ruby
-# ruby code
 class Country < ActiveRecord::Base
   include Mastar
   mastar.key :code
@@ -37,14 +36,20 @@ end
 ```
 ### Countries table data
 
-|id|name |code|
-|--|-----|----|
-| 1|USA  |us  |
-| 2|Japan|jp  |
+| id | name | code |
+|---:|:-----|:-----|
+|1   |USA   |us    |
+|2   |Japan |jp    |
 
-1. Can direct access by key method. (ex. `Country.jp` returns `#<Country id: 2, name: "Japan", code: "jp", ...>`)
-2. Can use `.get` method like as `.find`, `.get` preferentially returns cached object.
-3. Can use `.pairs` method.
+1. Direct access by key method.  
+    * `Country.jp` returns `#<Country id: 2, name: "Japan", code: "jp", ...>`
+    * `Country.jp(:name)` returns `"Japan"`
+    * `Country.jp(:name, :id)` returns `["Japan", 2]`
+2. `.get` method like as `.find`, `.get` preferentially returns cached object.
+    * `Country.find` returns from DB.
+    * `Country.get` returns from inner cache when already cached.
+    * When not cached, `Country.get` returns from DB, and cache it.
+3. `.pairs` method for writing select element shortly in Rails.
 ```ruby 
 # Normal
 f.select :country_id, Country.all.map { |c| [c.name, c.id] }
