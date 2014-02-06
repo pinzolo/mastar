@@ -62,6 +62,10 @@ f.collection_select :country_id, Country.all, :id, :name
 # In using Mastar
 f.select :country_id, Country.pairs
 ```
+## Supported versions
+
+- Ruby: 1.9.3, 2.0.0, 2.1.0
+- ActiveRecord: 3.2.x, 4.0.x
 
 ## Contributing
 
