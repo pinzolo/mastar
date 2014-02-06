@@ -48,7 +48,7 @@ end
 1. Direct access by key method.  
     * `Country.jp` returns `#<Country id: 2, name: "Japan", code: "jp", ...>`
     * `Country.jp(:name)` returns `"Japan"`
-    * `Country.jp(:name, :id)` returns `["Japan", 2]`
+    * `Country.jp(:code, :name, :id)` returns `["jp", "Japan", 2]`
 2. Judge method by key. (ex. `City.first.country.jp?`)
 3. `.get` method like as `.find`, `.get` preferentially returns cached object.
     * `Country.find` returns from DB.
