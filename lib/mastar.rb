@@ -5,6 +5,8 @@ require 'mastar/name_value_pair'
 
 module Mastar
   def self.included(base)
+    # If ActiveSupport::Concern used, this block called after base.extend(ClassMethods).
+    # In the result, raise SystemStackError "stack level too deep"
     class << base
       alias_method :find!, :find
     end
