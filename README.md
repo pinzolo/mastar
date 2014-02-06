@@ -21,7 +21,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. Call `include Mastar` in your ActiveRecord classes.
+2. Set key column name by way of `mastar.key` method.
+
+## Feature
+
+### Ruby code
+
+```ruby
+# ruby code
+class Country < ActiveRecord::Base
+  include Mastar
+  mastar.key :code
+end
+```
+### Countries table data
+
+|id|name |code|
+|--|-----|----|
+| 1|USA  |us  |
+| 2|Japan|jp  |
+
+1. Can direct access by key method. (ex. `Country.jp` returns `#<Country id: 2, name: "Japan", code: "jp", ...>`)
+2. Can use `.get` method like as `.find`, `.get` preferentially returns cached object.
+3. Can use `.pairs` method.
+```ruby 
+# Normal
+f.select :country_id, Country.all.map { |c| [c.name, c.id] }
+f.collection_select :country_id, Country.all, :id, :name
+# In using Mastar
+f.select :country_id, Country.pairs
+```
 
 ## Contributing
 

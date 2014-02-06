@@ -1,18 +1,14 @@
 # coding: utf-8
+require "active_support/concern"
 require 'mastar/version'
 require 'mastar/configuration'
 require 'mastar/name_value_pair'
 
 module Mastar
-  def self.included(base)
-    # If ActiveSupport::Concern used, this block called after base.extend(ClassMethods).
-    # In the result, raise SystemStackError "stack level too deep"
-    class << base
-      alias_method :find!, :find
-    end
-    base.extend(ClassMethods)
-    base.__send__(:include, InstanceMethods)
-    base.__send__(:before_save, :remove_record_cache)
+  extend ActiveSupport::Concern
+
+  included do
+    before_save :remove_record_cache
   end
 
   module ClassMethods
@@ -23,8 +19,8 @@ module Mastar
       self.select([name, value]).map { |r| NameValuePair.new(r.__send__(name), r.__send__(value)) }
     end
 
-    def find(id)
-      mastar_records[id] ||= find!(id)
+    def get(id)
+      mastar_records[id] ||= find(id)
       mastar_records[id]
     end
 
@@ -90,13 +86,11 @@ module Mastar
     end
   end
 
-  module InstanceMethods
-    private
-    def remove_record_cache
-      if self.id
-        records = self.class.__send__('mastar_records')
-        records[self.id] = nil
-      end
+  private
+  def remove_record_cache
+    if self.id
+      records = self.class.__send__('mastar_records')
+      records[self.id] = nil
     end
   end
 end
