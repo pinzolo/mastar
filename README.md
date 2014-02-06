@@ -33,6 +33,10 @@ class Country < ActiveRecord::Base
   include Mastar
   mastar.key :code
 end
+
+class City < ActiveRecord::Base
+  belongs_to :country
+end
 ```
 ### Countries table data
 
@@ -45,11 +49,12 @@ end
     * `Country.jp` returns `#<Country id: 2, name: "Japan", code: "jp", ...>`
     * `Country.jp(:name)` returns `"Japan"`
     * `Country.jp(:name, :id)` returns `["Japan", 2]`
-2. `.get` method like as `.find`, `.get` preferentially returns cached object.
+2. Judge method by key. (ex. `City.first.country.jp?`)
+3. `.get` method like as `.find`, `.get` preferentially returns cached object.
     * `Country.find` returns from DB.
     * `Country.get` returns from inner cache when already cached.
     * When not cached, `Country.get` returns from DB, and cache it.
-3. `.pairs` method for writing select element shortly in Rails.
+4. `.pairs` method for writing select element shortly in Rails.
 ```ruby 
 # Normal
 f.select :country_id, Country.all.map { |c| [c.name, c.id] }

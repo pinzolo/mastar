@@ -181,5 +181,30 @@ describe Mastar do
         Dow1.friday.holiday?.should eq true
       end
     end
+    context "judge method" do
+      context "method name is `code` + ?" do
+        it "respond to method name" do
+          Dow4.sunday.respond_to?(:monday?).should be_true
+        end
+        context "method name equals to code" do
+          it "returns true" do
+            Dow4.sunday.sunday?.should be_true
+          end
+        end
+        context "method name does not equal to code" do
+          it "returns false" do
+            Dow4.sunday.monday?.should be_false
+          end
+        end
+      end
+      context "method name is `not code` + ?" do
+        it "not respond to method name" do
+          Dow4.sundy.respond_to?(:foo?).should be_false
+        end
+        it "raise error" do
+          lambda { Dow4.sunday.birthday? }.should raise_error(NoMethodError)
+        end
+      end
+    end
   end
 end
