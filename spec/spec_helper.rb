@@ -1,4 +1,13 @@
 # coding: utf-8
+require "coveralls"
+require "simplecov"
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start do
+  add_filter '/active_record/'
+  add_filter '/spec/'
+  add_filter '/bundle/'
+end
+
 base_dir = File.dirname(__FILE__)
 $:.unshift(base_dir, '/../lib')
 require 'mastar'
