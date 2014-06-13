@@ -6,4 +6,4 @@ rvm:
 gemfile:
   - gemfiles/activerecord_3_2_x.gemfile
   - gemfiles/activerecord_4_0_x.gemfile
- - gemfiles/activerecord_4_1_x.gemfile
+  - gemfiles/activerecord_4_1_x.gemfile
