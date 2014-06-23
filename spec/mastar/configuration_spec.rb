@@ -1,111 +1,45 @@
 # coding: utf-8
 require 'spec_helper'
 describe Mastar::Configuration do
-  context 'initialized without parameter' do# {{{
-    before do
-      @config = Mastar::Configuration.new
-    end
-    describe '#name' do
-      it 'is :name' do
-        @config.name.should be :name
-      end
-    end
-    describe '#value' do
-      it 'is :id' do
-        @config.value.should be :id
-      end
-    end
-    describe '#key' do
-      it 'is nil' do
-        @config.key.should be nil
-      end
-    end
-  end# }}}
-
-  context 'initialized with Hash parameters (name: title, value: value, key: uid)' do
-    context 'key: symbol, value: symbol' do# {{{
-      before do
-        @config = Mastar::Configuration.new(:name => :title, :value => :value, :key => :uid)
-      end
-      describe '#name' do
-        it 'is :title' do
-          puts @config.name
-          @config.name.should be :title
-        end
-      end
-      describe '#value' do
-        it 'is :value' do
-          @config.value.should be :value
-        end
-      end
-      describe '#key' do
-        it 'is :uid' do
-          @config.key.should be :uid
-        end
-      end
-    end# }}}
-
-    context 'key: symbol, value: string' do# {{{
-      before do
-        @config = Mastar::Configuration.new(:name => 'title', :value => 'value', :key => 'uid')
-      end
-      describe '#name' do
-        it 'is :title' do
-          @config.name.should be :title
-        end
-      end
-      describe '#value' do
-        it 'is :value' do
-          @config.value.should be :value
-        end
-      end
-      describe '#key' do
-        it 'is :uid' do
-          @config.key.should be :uid
-        end
-      end
-    end# }}}
-
-    context 'key: string, value: string' do# {{{
-      before do
-        @config = Mastar::Configuration.new('name' => 'title', 'value' => 'value', 'key' => 'uid')
-      end
-      describe '#name' do
-        it 'is :title' do
-          @config.name.should be :title
-        end
-      end
-      describe '#value' do
-        it 'is :value' do
-          @config.value.should be :value
-        end
-      end
-      describe '#key' do
-        it 'is :uid' do
-          @config.key.should be :uid
-        end
-      end
-    end# }}}
+  context 'initialized without parameter' do
+    let(:config) { Mastar::Configuration.new }
+    subject { config }
+    it { expect(config.name).to be :name }
+    it { expect(config.value).to be :id }
+    it { expect(config.key).to be_nil }
   end
 
-  context 'initialized with parameters (not Hash)' do# {{{
-    before do
-      @config = Mastar::Configuration.new(['title', 'value', 'uid'])
+  context 'initialized with Hash parameters (name: title, value: value, key: uid)' do
+    context 'key: symbol, value: symbol' do
+      let(:config) { Mastar::Configuration.new(:name => :title, :value => :value, :key => :uid) }
+      subject { config }
+      it { expect(config.name).to be :title }
+      it { expect(config.value).to be :value }
+      it { expect(config.key).to be :uid }
     end
-    describe '#name' do
-      it 'is :name' do
-        @config.name.should be :name
-      end
+
+    context 'key: symbol, value: string' do
+      let(:config) { Mastar::Configuration.new(:name => 'title', :value => 'value', :key => 'uid') }
+      subject { config }
+      it { expect(config.name).to be :title }
+      it { expect(config.value).to be :value }
+      it { expect(config.key).to be :uid }
     end
-    describe '#value' do
-      it 'is :id' do
-        @config.value.should be :id
-      end
+
+    context 'key: string, value: string' do
+      let(:config) { Mastar::Configuration.new('name' => 'title', 'value' => 'value', 'key' => 'uid') }
+      subject { config }
+      it { expect(config.name).to be :title }
+      it { expect(config.value).to be :value }
+      it { expect(config.key).to be :uid }
     end
-    describe '#key' do
-      it 'is nil' do
-        @config.key.should be nil
-      end
-    end
-  end# }}}
+  end
+
+  context 'initialized with parameters (not Hash)' do
+    let(:config) { Mastar::Configuration.new(['title', 'value', 'uid']) }
+    subject { config }
+    it { expect(config.name).to be :name }
+    it { expect(config.value).to be :id }
+    it { expect(config.key).to be_nil }
+  end
 end

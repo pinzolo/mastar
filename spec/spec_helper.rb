@@ -18,10 +18,8 @@ ActiveRecord::Base.establish_connection(
   :database => ':memory:'
 )
 
-ActiveRecord::Base.silence do
-  load(base_dir + '/schema.rb')
-  load(base_dir + '/models.rb')
-end
+ActiveRecord::Base.load(base_dir + '/schema.rb')
+ActiveRecord::Base.load(base_dir + '/models.rb')
 
 require 'yaml'
 (1..4).to_a.each do |i|
